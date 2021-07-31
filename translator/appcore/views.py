@@ -71,27 +71,3 @@ class TranslationAzDetail(APIView):
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-
-
-
-
-
-@api_view(['GET', 'POST'])
-def snippet_list(request, word):
-    print(word)
-    if request.method == 'GET':
-        snippets = Words.objects.get(word=word)
-        serializer = WordsSerializer(snippets, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = WordsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
