@@ -6,7 +6,7 @@ export default function MainPage(props) {
   const [text, setText] = useState('')
   const [textArr, setTextArr] = useState([])
   const [mact, setMact] = useState({ 'display': 'none' })
-  const [wordTr, setWordTr] = useState({ 'word': null, 'translation': null })
+  const [wordTr, setWordTr] = useState({ 'word': '', 'translation': '' })
 const [lang, setLang]=useState('tr')
 
 const [directTr, setDirectTr]=useState('')
@@ -21,15 +21,20 @@ const DetermLang=(e)=>{
 }
 
   const TranslateTrCore = (e) => {
+    let a =e.target.textContent.replace(/[#_,.@#!$%^&*)(]/g,'');
+    
+
+    setWordTr({ 'word': a[0].toUpperCase()+a.substr(1, a.length), 'translation': '' })
     setMact({ 'display': 'block' })
     
-    DetermLang(e.target.textContent.toLowerCase().replace(/[#_,.@#!$%^&*)(]/g,'')).then((response) => {
+    DetermLang(a.toLowerCase()).then((response) => {
       if (response) {
+        response.word=response.word[0].toUpperCase()+response.word.substr(1, response.word.length)
         setWordTr(response)
       } else {
 
 
-        setWordTr({ 'word': e.target.textContent, 'translation': 'Nəticə tapılmadı' })
+        setWordTr({ 'word': a[0].toUpperCase()+a.substr(1, a.length), 'translation': 'Nəticə tapılmadı' })
       
       
       }
@@ -60,6 +65,8 @@ const DetermLang=(e)=>{
     console.log(directTr)
     DetermLang(directTr).then((res)=>{
       setDirectTrRes(res.translation)
+      window.scrollTo(0,document.body.scrollHeight);
+
     })
   }
   const langChange=(e)=>{
@@ -71,7 +78,8 @@ const DetermLang=(e)=>{
   }
   return (
     <div onMouseUp={MouseUp}>
-      <div className="flex">
+      
+      <div className="flex mv2p-mh5p">
         <select onChange={langChange} value={lang}>
         <option value="az">Azərbaycanca</option>
         <option value="tr">Türkcə</option>
@@ -80,21 +88,21 @@ const DetermLang=(e)=>{
         </div>
 
 
-      <textarea value={text} onChange={textChange} />
-      <div className="b-w">
+      <textarea value={text} onChange={textChange}className="mv1p-mh5p" />
+      <div className="b-w mv2p-mh5p">
         {textArr.map((w, ind) => {
           if (w === '<br/>') {
             return <br key={ind} />
           }
-          return <span key={ind} className="c-p ml5" onMouseDown={TranslateTrCore} >{w}</span>
+          return <span key={ind} className="c-p ml5 spt" onMouseDown={TranslateTrCore} >{w}</span>
         })}
       </div>
-        <form className="mt10 mb10" onSubmit={submitHandle}>
+        <form className="mt10 mb10 mv2p-mh5p" onSubmit={submitHandle}>
         <input onChange={trChange} value={directTr}/>
-        <button className="c-p">translate</button>
+        <button className="c-p">Tərcümə et</button>
         </form>
 
-        <div>{directTrRes}</div>
+        <div className="mv2p-mh5p">{directTrRes}</div>
       <div id="myModal" className="modal" style={mact}>
 
         <div className="modal-content">
