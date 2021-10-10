@@ -1,5 +1,5 @@
 <h1>AzTranslator</h1>
-
+<h2>Django Rest Framework API + React Js</h2>
 Working example: <a href="https://aztranslator.pythonanywhere.com/">https://aztranslator.pythonanywhere.com/</a>
 <br><br>
 Walkthrough Video<br><br>
